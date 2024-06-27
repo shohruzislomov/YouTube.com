@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.youtube.enums.ProfileRole;
 import org.example.youtube.enums.ProfileStatus;
+
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class ProfileDTO {
@@ -16,4 +19,7 @@ public class ProfileDTO {
     private ProfileRole role;
     private ProfileStatus status;
     private Boolean visible;
+    private LocalDateTime createdDate;
+    private String jwt;
+
 }
