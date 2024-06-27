@@ -19,7 +19,7 @@ public class ProfileEntity {
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
-    private String surName;
+    private String surname;
     @Column(name = "email")
     private String email;
     @Column(name = "password")

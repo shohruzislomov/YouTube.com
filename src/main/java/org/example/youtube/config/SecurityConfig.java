@@ -38,6 +38,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
             authorizationManagerRequestMatcherRegistry
                     .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/profile/**").permitAll()
                     .anyRequest()
                     .authenticated();
         });

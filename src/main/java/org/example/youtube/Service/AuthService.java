@@ -40,7 +40,7 @@ public class AuthService {
 
         ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
-        entity.setSurName(dto.getSurname());
+        entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.getMD5(dto.getPassword()));
         entity.setCreatedDate(LocalDateTime.now());
@@ -162,7 +162,7 @@ public class AuthService {
         }
         ProfileDTO dto2 = new ProfileDTO();
         dto2.setId(dto1.get().getId());
-        dto2.setSurName(dto1.get().getSurName());
+        dto2.setSurname(dto1.get().getSurname());
         dto2.setName(dto1.get().getName());
         dto2.setRole(dto1.get().getRole());
         dto2.setVisible(dto1.get().getVisible());
@@ -171,7 +171,7 @@ public class AuthService {
         dto2.setPhoto(dto1.get().getPhoto());
         dto2.setCreatedDate(dto1.get().getCreatedDate());
         dto2.setEmail(dto1.get().getEmail());
-        dto2.setJwt(JWTUtil.encode(dto1.get().getId(), dto1.get().getRole()));
+        dto2.setJwt(JWTUtil.encode(dto1.get().getId(), dto1.get().getRole(),dto1.get().getEmail()));
         return dto2;
     }
 }
