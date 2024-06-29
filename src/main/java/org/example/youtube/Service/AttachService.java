@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -35,8 +36,6 @@ public class AttachService {
     @Autowired
     AttachRepository attachRepository;
 
-//    @Autowired
-//    VideoRepository videoRepository;
 
     @Value("${attach.upload.url}")
     private String attachUrl;
@@ -50,7 +49,7 @@ public class AttachService {
             }
 
             String key = UUID.randomUUID().toString(); // dasdasd-dasdasda-asdasda-asdasd
-            String extension = getExtension(file.getOriginalFilename()); // dasda.asdas.dasd.jpg
+            String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename())); // dasda.asdas.dasd.jpg
             // save to system
             byte[] bytes = file.getBytes();
             Path path = Paths.get(attachUrl + pathFolder + "/" + key + "." + extension);

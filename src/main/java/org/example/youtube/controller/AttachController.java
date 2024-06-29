@@ -1,23 +1,22 @@
 package org.example.youtube.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.youtube.Service.AttachService;
 import org.example.youtube.dto.AttachDTO;
 import org.example.youtube.entity.AttachEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/attach")
 public class AttachController {
-    @Autowired
-    AttachService attachService;
-    @Value("${server.url}")
-    private String serverUrl;
+    private final AttachService attachService;
+//    @Value("${server.url}")
+//    private String serverUrl;
 
 
 //    @PostMapping("/upload")
