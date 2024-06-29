@@ -9,18 +9,24 @@ import org.example.youtube.enums.ProfileStatus;
 import org.example.youtube.exp.AppBadException;
 import org.example.youtube.repository.ProfileRepository;
 import org.example.youtube.util.MD5Util;
+import org.example.youtube.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
-
+    @Autowired
+    private MailSenderService mailSenderService;
+    @Autowired
+    private EmailHistoryService emailHistoryService;
     @Autowired
     private AuthService authService;
 
@@ -40,19 +46,12 @@ public class ProfileService {
         return toDTO(entity);
     }
 
-    public ProfileDTO update(Integer id, ProfileUpdateDTO dto) {
-
-
-        ProfileEntity entity = new ProfileEntity();
-
-        entity = get(id);
-
-        entity.setName(dto.getName());
-        entity.setSurname(dto.getSurname());
-
-
+    public ProfileDTO update(ProfileUpdateDTO profileUpdateDTO) {
+        ProfileEntity entity = SecurityUtil.getProfile();
+        Objects.requireNonNull(entity);
+        entity.setName(profileUpdateDTO.getName());
+        entity.setSurname(profileUpdateDTO.getSurname());
         profileRepository.save(entity);
-
         return toDTO(entity);
     }
 
@@ -114,18 +113,48 @@ public class ProfileService {
     }
 
 
-    public void updateEmail(Integer id, String newemail) {
+    public String updateEmail(String newEmail) {
+        ProfileEntity entity = SecurityUtil.getProfile();
+        Objects.requireNonNull(entity);
 
-        ProfileEntity entity = new ProfileEntity();
+        if (!entity.getEmail().equals(newEmail)) {
+            sendRegistrationEmail(entity.getId(), newEmail);
+            entity.setTempEmail(newEmail);
+            entity.setStatus(ProfileStatus.REGISTRATION);
+            entity.setUpdatedDate(LocalDateTime.now());
+            profileRepository.save(entity);
+            return "To complete your registration, please verify your email";
+        }
+        return "Email don't changed";
+    }
 
-        entity = get(id);
-
-        entity.setEmail(newemail);
-
-        entity.setStatus(ProfileStatus.REGISTRATION);
-
-        profileRepository.save(entity);
-
-        authService.sendRegistrationEmail(id, newemail);
+    public void sendRegistrationEmail(Integer profileId, String email) {
+        // send email
+        String url = "http://localhost:8080/profile/verification/" + profileId;
+        String formatText = "<style>\n" +
+                "    a:link, a:visited {\n" +
+                "        background-color: #f44336;\n" +
+                "        color: white;\n" +
+                "        padding: 14px 25px;\n" +
+                "        text-align: center;\n" +
+                "        text-decoration: none;\n" +
+                "        display: inline-block;\n" +
+                "    }\n" +
+                "\n" +
+                "    a:hover, a:active {\n" +
+                "        background-color: red;\n" +
+                "    }\n" +
+                "</style>\n" +
+                "<div style=\"text-align: center\">\n" +
+                "    <h1>Welcome to kun.uz web portal</h1>\n" +
+                "    <br>\n" +
+                "    <p>Please button lick below to complete registration</p>\n" +
+                "    <div style=\"text-align: center\">\n" +
+                "        <a href=\"%s\" target=\"_blank\">This is a link</a>\n" +
+                "    </div>";
+        String text = String.format(formatText, url);
+        String title = "Complete registration";
+        mailSenderService.send(email, title, text);
+        emailHistoryService.create(email, title, text); // create history
     }
 }

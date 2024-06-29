@@ -14,15 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
-/*Profile (USER role)
-	2. Update Email (with email verification)
-
-
-    5. Get Profile Detail (id,name,surname,email,main_photo((url)))
-
-   */
-
-
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -37,27 +28,31 @@ public class ProfileController {
         return ResponseEntity.ok().body(response);
     }
 
-
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PutMapping("/current")
-    public ResponseEntity<Boolean> updateUser(@RequestBody ProfileUpdateDTO profile,
-                                              @RequestHeader("Authorization") String token) {
-        JwtDTO dto = SecurityUtil.getJwtDTO(token,ProfileRole.ROLE_USER);
-        profileService.updateUser(dto.getId(), profile);
+    public ResponseEntity<Boolean> updateUser(@RequestBody ProfileUpdateDTO profile) {
+        profileService.update(profile);
         return ResponseEntity.ok().body(true);
     }
 
+   /* @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PutMapping("/current/update-attach")
+    public ResponseEntity<ProfileDTO> updateAttach(@RequestParam("image") MultipartFile file) {
+        return ResponseEntity.ok().body(profileService.updateAttach(file));
+    }*/
 
-    @PutMapping("/updateEmail")
-    public ResponseEntity<Boolean> UpdateEmail(@RequestBody String newemail,
-                                                         @RequestHeader("Authorization") String token) {
-        JwtDTO dto = SecurityUtil.getJwtDTO(token,ProfileRole.ROLE_USER);
-        profileService.updateEmail(dto.getId(), newemail);
-        return ResponseEntity.ok().body(true);
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PutMapping("/current/update-email/{email}")
+    public ResponseEntity<String> updateEmail(
+            @PathVariable("email") String newEmail) {
+        return ResponseEntity.ok().body(profileService.updateEmail(newEmail));
     }
 
 
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public Boolean delete(@PathVariable("id") Integer id,
                           @RequestHeader("Authorization") String token) {
         SecurityUtil.getJwtDTO(token, ProfileRole.ROLE_ADMIN);

@@ -45,4 +45,11 @@ public class EmailHistoryService {
             throw new AppBadException("Confirmation time expired");
         }
     }
+    public void create(String email,String title, String text) {
+        EmailHistoryEntity entity = new EmailHistoryEntity();
+        entity.setEmail(email);
+        entity.setMessage(title);
+        entity.setMessage(text);
+        emailHistoryRepository.save(entity);
+    }
 }
