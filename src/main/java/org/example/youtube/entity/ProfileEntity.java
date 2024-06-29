@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.example.youtube.enums.ProfileRole;
 import org.example.youtube.enums.ProfileStatus;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -17,7 +19,7 @@ public class ProfileEntity {
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
-    private String surName;
+    private String surname;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
@@ -31,5 +33,7 @@ public class ProfileEntity {
     @Enumerated(EnumType.STRING)
     private ProfileStatus status;
     @Column(name = "visible")
-    private Boolean visible;
+    private Boolean visible= Boolean.TRUE;;
+    @Column(name = "created_date")
+    private LocalDateTime createdDate = LocalDateTime.now();
 }
