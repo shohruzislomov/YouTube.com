@@ -9,13 +9,18 @@ import javax.sql.DataSource;
 
 @Configuration
 public class MigrationConfiguration {
-
+    @Value("${spring.datasource.url}")
+    private String dataSourceUrl;
+    @Value("${spring.datasource.username}")
+    private String dataSourceUsername;
+    @Value("${spring.datasource.password}")
+    private String dataSourcePassword;
     @Bean
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/YouTube");
-        dataSourceBuilder.username("Diyorbek");
-        dataSourceBuilder.password("123456");
+        dataSourceBuilder.url(dataSourceUrl);
+        dataSourceBuilder.username(dataSourceUsername);
+        dataSourceBuilder.password(dataSourcePassword);
         return dataSourceBuilder.build();
 
 
