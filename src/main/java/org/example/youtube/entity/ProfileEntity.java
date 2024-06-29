@@ -29,6 +29,10 @@ public class ProfileEntity {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ProfileRole role;
+    @Column(name = "temp_email" )
+    private String tempEmail;
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ProfileStatus status;
