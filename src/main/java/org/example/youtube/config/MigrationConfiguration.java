@@ -13,9 +13,9 @@ public class MigrationConfiguration {
     @Bean
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/jpa");
-        dataSourceBuilder.username("mexa");
-        dataSourceBuilder.password("123");
+        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/YouTube");
+        dataSourceBuilder.username("Diyorbek");
+        dataSourceBuilder.password("123456");
         return dataSourceBuilder.build();
 
 
