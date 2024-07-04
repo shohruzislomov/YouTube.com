@@ -1,4 +1,4 @@
-package org.example.youtube.config;
+package org.example.youtube.Configuration;
 
 import org.example.youtube.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +47,8 @@ public class SecurityConfig {
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/webjars/**").permitAll()
                     .requestMatchers("/swagger-ui.html").permitAll()
-
                     .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/channel/create").hasRole("USER")
                     .anyRequest()
                     .authenticated();
         });

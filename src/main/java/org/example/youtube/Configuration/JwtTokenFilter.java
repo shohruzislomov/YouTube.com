@@ -1,4 +1,4 @@
-package org.example.youtube.config;
+package org.example.youtube.Configuration;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

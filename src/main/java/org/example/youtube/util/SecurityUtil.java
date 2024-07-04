@@ -2,7 +2,7 @@ package org.example.youtube.util;
 
 
 
-import org.example.youtube.config.CustomUserDetail;
+import org.example.youtube.Configuration.CustomUserDetail;
 import org.example.youtube.dto.JwtDTO;
 import org.example.youtube.entity.ProfileEntity;
 import org.example.youtube.enums.ProfileRole;

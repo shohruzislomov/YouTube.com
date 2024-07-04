@@ -13,6 +13,8 @@ public class ChannelCreateDTO {
     private String name;
     @NotBlank(message = "description required")
     private String description;
+    @NotBlank(message = "user id required")
+    private Integer userId;
     @NotBlank(message = "photoId required")
     private String photoId;
     @NotBlank(message = "bannerId required")

@@ -16,8 +16,7 @@ public class ChannelController {
     @Autowired
     private ChannelService channelService;
 
-
-
+    @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("/create")
     public ResponseEntity<ChannelDTO> create(@Valid @RequestBody ChannelCreateDTO channel) {
         return ResponseEntity.ok(channelService.create(channel));

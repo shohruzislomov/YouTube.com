@@ -5,6 +5,7 @@ import org.example.youtube.dto.auth.LoginDTO;
 import org.example.youtube.dto.auth.RegistrationDTO;
 import org.example.youtube.dto.profile.ProfileDTO;
 import org.example.youtube.entity.ProfileEntity;
+import org.example.youtube.enums.LanguageEnum;
 import org.example.youtube.enums.ProfileRole;
 import org.example.youtube.enums.ProfileStatus;
 import org.example.youtube.exp.AppBadException;
@@ -12,9 +13,11 @@ import org.example.youtube.repository.ProfileRepository;
 import org.example.youtube.util.JWTUtil;
 import org.example.youtube.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 @Slf4j
@@ -26,16 +29,18 @@ public class AuthService {
     private MailSenderService mailSenderService;
     @Autowired
     private EmailHistoryService emailHistoryService;
+    @Autowired
+    ResourceBundleMessageSource messageSource;
 
 
-
-    public String registrationByEmail(RegistrationDTO dto) {
+    public String registrationByEmail(RegistrationDTO dto, LanguageEnum lang) {
 
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
 
         if (optional.isPresent()) {
             log.warn("Email already exists email : {}", dto.getEmail());
-            throw new AppBadException("Email already exists");
+            String message = messageSource.getMessage("email.exists", null, new Locale(lang.name()));
+            throw new AppBadException(message);
         }
 
         ProfileEntity entity = new ProfileEntity();
@@ -151,7 +156,6 @@ public class AuthService {
     }
 
 
-
     public ProfileDTO login(LoginDTO dto) {
         Optional<ProfileEntity> dto1 = profileRepository.findByEmailAndPasswordAndVisibleIsTrue(dto.getEmail(), MD5Util.getMD5(dto.getPassword()));
         if (dto1.isEmpty()) {
@@ -171,7 +175,7 @@ public class AuthService {
         dto2.setPhoto(dto1.get().getPhoto());
         dto2.setCreatedDate(dto1.get().getCreatedDate());
         dto2.setEmail(dto1.get().getEmail());
-        dto2.setJwt(JWTUtil.encode(dto1.get().getId(), dto1.get().getRole(),dto1.get().getEmail()));
+        dto2.setJwt(JWTUtil.encode(dto1.get().getId(), dto1.get().getRole(), dto1.get().getEmail()));
         return dto2;
     }
 }

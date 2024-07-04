@@ -1,4 +1,4 @@
-package org.example.youtube.config;
+package org.example.youtube.Configuration;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
