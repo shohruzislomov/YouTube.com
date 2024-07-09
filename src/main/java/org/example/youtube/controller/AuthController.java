@@ -1,11 +1,13 @@
 package org.example.youtube.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.example.youtube.Service.AuthService;
 import org.example.youtube.dto.auth.LoginDTO;
 import org.example.youtube.dto.auth.RegistrationDTO;
 import org.example.youtube.dto.profile.ProfileDTO;
+import org.example.youtube.enums.LanguageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,9 @@ public class AuthController {
 
 
     @PostMapping("/registrationByEmail")
-    public ResponseEntity<String> registrationByEmail(@Valid @RequestBody RegistrationDTO dto) {
-        String body = authService.registrationByEmail(dto);
+    public ResponseEntity<String> registrationByEmail(@Valid @RequestBody RegistrationDTO dto,
+                                                      @RequestHeader(value = "Accept-Language",defaultValue = "UZ")LanguageEnum languageEnum) {
+        String body = authService.registrationByEmail(dto, languageEnum);
         return ResponseEntity.ok().body(body);
     }
 

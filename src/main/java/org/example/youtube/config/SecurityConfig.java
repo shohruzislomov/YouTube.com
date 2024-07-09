@@ -49,6 +49,7 @@ public class SecurityConfig {
                     .requestMatchers("/swagger-ui.html").permitAll()
 
                     .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/playlist/**").permitAll()
                     .anyRequest()
                     .authenticated();
         });

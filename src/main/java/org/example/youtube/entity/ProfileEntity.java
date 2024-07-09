@@ -37,7 +37,7 @@ public class ProfileEntity {
     @Enumerated(EnumType.STRING)
     private ProfileStatus status;
     @Column(name = "visible")
-    private Boolean visible= Boolean.TRUE;;
+    private Boolean visible= Boolean.TRUE;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
 }

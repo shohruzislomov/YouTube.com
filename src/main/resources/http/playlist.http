@@ -1,0 +1,22 @@
+### Create
+POST localhost:8080/playlist/create
+Content-Type: application/json
+
+{
+  "channelId": 2,
+  "name": "rasm2",
+  "description": "r2",
+  "status": "PRIVATE",
+  "orderNumber": 2
+}
+
+### Update
+POST localhost:8080/playlist/update/2
+Content-Type: application/json
+
+{
+  "name": "rasm",
+  "description": "slfdfwwfmmfmm",
+  "status": "PRIVATE",
+  "orderNum": 3
+}

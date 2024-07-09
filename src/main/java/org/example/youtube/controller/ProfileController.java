@@ -1,6 +1,7 @@
 package org.example.youtube.controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.example.youtube.Service.ProfileService;
 import org.example.youtube.dto.JwtDTO;
 import org.example.youtube.dto.profile.ProfileCreateDTO;
@@ -13,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
