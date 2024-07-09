@@ -1,0 +1,12 @@
+### Registration
+POST localhost:8080/auth/registrationByEmail
+Content-Type: application/json
+Accept-Language: RU
+
+{
+  "name": "sdsfd",
+  "surname": "dsdfsd",
+  "password": "323223",
+  "photoId": "sdew2",
+  "email": "sd@gmail.com"
+}
